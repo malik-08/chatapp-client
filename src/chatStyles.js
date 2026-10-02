@@ -1,4 +1,4 @@
-// src/componenet/chatStyles.js
+
 export const styles = {
   pageContainer: {
     display: "flex",

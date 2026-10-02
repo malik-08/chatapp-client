@@ -1,10 +1,8 @@
-/* ---------- Fixed green header colors (same in light & dark) ---------- */
 :root {
   --header-bg: #075e54;
   --header-text: #ffffff;
   --header-text-secondary: #d9fdd3;
 
-  /* Light theme = default */
   --bg-main: #efeae2;
   --bg-sidebar: #ffffff;
   --bg-panel: #f0f2f5;
@@ -16,7 +14,7 @@
   --accent: #00a884;
   --accent-hover: #017561;
   --border: #e9edef;
-  --leave-color: #d90429;
+  --leave-color: #ea4335;
 }
 
 .app-shell.dark {
@@ -31,7 +29,7 @@
   --accent: #00a884;
   --accent-hover: #017561;
   --border: #222d34;
-  --leave-color: #ff6b6b;
+  --leave-color: #ea4335;
 }
 
 * {
@@ -83,28 +81,24 @@ body {
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
 }
 
+/* Smaller, compact status pill */
 .status-pill {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.2rem 0.7rem;
-  border-radius: 12px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  white-space: nowrap;
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--header-text);
-}
-.status-pill.on { color: var(--header-text-secondary); }
-.status-pill.off { color: #ffb4b4; }
-.status-pill-dot {
-  width: 7px;
-  height: 7px;
+  justify-content: center;
+  padding: 0.3rem 0.4rem;
   border-radius: 50%;
-  background: currentColor;
+  background: rgba(255, 255, 255, 0.15);
+}
+.status-pill.on .status-pill-dot { background: #25d366; }
+.status-pill.off .status-pill-dot { background: #ffb4b4; }
+.status-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
@@ -113,46 +107,27 @@ body {
   color: var(--header-text);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 14px;
-  padding: 0.25rem 0.7rem;
-  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.72rem;
   cursor: pointer;
 }
 .theme-toggle:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.join-search-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  padding: 1rem 1.2rem;
-  border-bottom: 1px solid var(--border);
-}
-.join-search-form input {
-  width: 100%;
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-size: 0.9rem;
-  background: var(--bg-input);
-  color: var(--text-primary);
-  outline: none;
-}
-.join-search-form input::placeholder {
-  color: var(--text-secondary);
-}
-.join-search-form button {
-  padding: 0.6rem;
-  background: var(--accent);
-  color: #fff;
+.add-room-btn {
+  background: #ffffff;
+  color: var(--header-bg);
   border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-}
-.join-search-form button:hover {
-  background: var(--accent-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .recent-list {
@@ -307,18 +282,20 @@ body {
   font-size: 0.75rem;
   color: var(--header-text-secondary);
 }
+
 .wa-leave-btn {
-  background: rgba(255, 255, 255, 0.1);
+  background-color: var(--leave-color);
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: none;
   border-radius: 6px;
-  padding: 0.4rem 0.9rem;
+  padding: 0.4rem 1rem;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 600;
   flex-shrink: 0;
 }
 .wa-leave-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background-color: #d33828;
 }
 
 .wa-messages {
@@ -327,7 +304,7 @@ body {
   padding: 1.2rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
   background: var(--bg-main);
 }
 
@@ -352,9 +329,9 @@ body {
 .wa-bubble {
   background: var(--bubble-other);
   color: var(--text-primary);
-  padding: 0.5rem 0.8rem;
+  padding: 0.6rem 0.9rem;
   border-radius: 8px;
-  max-width: 60%;
+  max-width: 65%;
   word-break: break-word;
   font-size: 0.95rem;
   display: flex;
@@ -371,6 +348,44 @@ body {
   margin-bottom: 2px;
 }
 
+.chat-media-img {
+  max-width: 220px;
+  max-height: 220px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  display: block;
+}
+.chat-media-video {
+  max-width: 240px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  display: block;
+}
+.chat-media-audio {
+  width: 200px;
+  margin-bottom: 4px;
+}
+
+.wa-msg-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+.wa-msg-time {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+.ticks {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+.ticks.seen {
+  color: #53bdeb;
+}
+
 .wa-input-wrapper {
   position: relative;
 }
@@ -384,9 +399,8 @@ body {
   border-radius: 10px;
   padding: 0.6rem;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.15rem;
-  max-width: 280px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.3rem;
   box-shadow: 0 4px 18px rgba(0,0,0,0.25);
   z-index: 10;
 }
@@ -401,7 +415,7 @@ body {
 .emoji-btn:hover {
   background: var(--bg-input);
 }
-.emoji-toggle-btn {
+.emoji-toggle-btn, .attach-btn {
   background: transparent;
   border: none;
   font-size: 1.3rem;
@@ -417,7 +431,7 @@ body {
   gap: 0.9rem;
   flex-shrink: 0;
 }
-.wa-input-form input {
+.wa-input-form input[type="text"] {
   flex: 1;
   min-width: 0;
   padding: 0.65rem 1.1rem;
@@ -432,7 +446,7 @@ body {
   color: var(--text-secondary);
 }
 .wa-send-btn {
-  padding: 0.6rem 1.2rem;
+  padding: 0.6rem 1.3rem;
   border-radius: 20px;
   background: var(--accent);
   color: #fff;
@@ -443,5 +457,113 @@ body {
   flex-shrink: 0;
 }
 .wa-send-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* Modal Popup with Green Header */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: var(--bg-sidebar);
+  color: var(--text-primary);
+  width: 380px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.modal-header {
+  padding: 14px 18px;
+  background-color: var(--header-bg); /* WhatsApp green header color */
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-size: 1.05rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.modal-form {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.95rem;
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.btn-cancel:hover {
+  background: var(--border);
+}
+
+.btn-submit {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-submit:hover {
   background: var(--accent-hover);
 }

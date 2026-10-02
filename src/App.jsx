@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ChatRoom from "./componenet/ChatRoom";
 import "./App.css";
 import { io } from "socket.io-client";
 
-const SOCKET_URL = "http://localhost:5050";
+const SOCKET_URL = "https://chatapp-server-three.vercel.app";
 const RECENTS_KEY = "chatapp_recent_rooms";
 const THEME_KEY = "chatapp_theme";
 
@@ -18,8 +18,15 @@ function App() {
   const [recentRooms, setRecentRooms] = useState([]);
   const [theme, setTheme] = useState(() => localStorage.getItem(THEME_KEY) || "light");
 
+  // State for Join Modal popup via "+" button
+  const [showJoinModal, setShowJoinModal] = useState(false);
+  const [modalUsername, setModalUsername] = useState("");
+  const [modalRoom, setModalRoom] = useState("");
+
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(SOCKET_URL, {
+      maxHttpBufferSize: 10 * 1024 * 1024,
+    });
 
     socket.on("connect", () => setConnected(true));
     socket.on("disconnect", () => setConnected(false));
@@ -66,11 +73,12 @@ function App() {
     setRoom(cleanRoom);
     setJoined(true);
     saveRecentRoom(cleanName, cleanRoom);
+    setShowJoinModal(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    joinRoom(username, room);
+    joinRoom(modalUsername, modalRoom);
   };
 
   const handleQuickJoin = (item) => {
@@ -84,38 +92,26 @@ function App() {
 
   return (
     <div className={`app-shell ${theme}`}>
-      {/* LEFT SIDEBAR */}
       <aside className="sidebar">
         <div className="sidebar-topbar">
-          <h1>Realtime Chat</h1>
+          <h1>ChatApp</h1>
           <div className="topbar-right">
+            {/* Smaller, compact status pill without "Disconnected" text */}
             <span className={`status-pill ${connected ? "on" : "off"}`}>
               <span className="status-pill-dot" />
-              {connected ? "Connected" : "Disconnected"}
             </span>
             <button className="theme-toggle" onClick={toggleTheme}>
               {theme === "dark" ? "Light" : "Dark"}
             </button>
+            <button
+              className="add-room-btn"
+              onClick={() => setShowJoinModal(true)}
+              title="Join New Room"
+            >
+              +
+            </button>
           </div>
         </div>
-
-        <form className="join-search-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Your name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Room name"
-            value={room}
-            onChange={(e) => setRoom(e.target.value)}
-            required
-          />
-          <button type="submit">Join</button>
-        </form>
 
         <div className="recent-list">
           <p className="recent-label">Recent</p>
@@ -147,7 +143,6 @@ function App() {
         </div>
       </aside>
 
-      {/* MAIN CHAT PANEL */}
       <main className="main-panel">
         {joined ? (
           <ChatRoom
@@ -158,10 +153,52 @@ function App() {
           />
         ) : (
           <div className="empty-state">
-            <p>Select a chat or join a room to start messaging</p>
+            <p>Select a chat or click <strong>+</strong> to join a room to start messaging</p>
           </div>
         )}
       </main>
+
+      {/* Modal Popup with Green Header */}
+      {showJoinModal && (
+        <div className="modal-overlay">
+          <div className="modal-card">
+            <div className="modal-header">
+              <h3>Join New Room</h3>
+              <button className="modal-close" onClick={() => setShowJoinModal(false)}>✕</button>
+            </div>
+            <form onSubmit={handleSubmit} className="modal-form">
+              <div className="form-group">
+                <label>Your Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={modalUsername}
+                  onChange={(e) => setModalUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Room Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter room name"
+                  value={modalRoom}
+                  onChange={(e) => setModalRoom(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="btn-cancel" onClick={() => setShowJoinModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn-submit">
+                  Join
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
